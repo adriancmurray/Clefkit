@@ -1,0 +1,6 @@
+{
+  "name": "clefkit",
+  "owner": { "name": "Adrian Murray" },
+  "metadata": { "description": "Clefkit: typed decisions (yes/no, choice, score) from Clef-style decision models." },
+  "plugins": [{ "name": "clefkit", "source": "./plugin", "description": "Typed decisions from Clef decision models: an MCP tool, a skill and a CLI." }]
+}

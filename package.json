@@ -1,0 +1,10 @@
+{
+  "name": "clefkit",
+  "version": "0.1.0",
+  "private": true,
+  "type": "module",
+  "description": "Typed decisions from Clef-style decision models, for Claude Code and anything else",
+  "license": "Apache-2.0",
+  "engines": { "node": ">=22.18" },
+  "scripts": { "test": "node --test plugin/tests/*.test.ts" }
+}

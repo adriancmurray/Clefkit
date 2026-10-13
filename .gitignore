@@ -1,0 +1,10 @@
+node_modules/
+.DS_Store
+__pycache__/
+*.pyc
+.venv/
+fixtures/*.safetensors
+server/mlx/fixtures/*.npz
+.wrangler/
+server/mlx/parity/results/
+.dev.vars

@@ -1,0 +1,24 @@
+{
+  "description": "Classify a shell command or tool action by its effect, and say whether the user should confirm it before it runs.",
+  "questions": {
+    "risk": {
+      "type": "choice",
+      "instructions": "Which kind of effect does this have? If several apply, pick the most severe, in this order: privileged, destructive, network, writes_local, read_only.",
+      "criteria": {
+        "read_only": "Only reads files, state, or output; changes nothing.",
+        "writes_local": "Writes or changes files or state inside the working project, in a way that can be restored.",
+        "destructive": "Deletes, overwrites, or rewrites data or history that cannot easily be restored.",
+        "network": "Sends data off the machine or fetches from outside it, without changing local state beyond caches.",
+        "privileged": "Needs elevated rights, changes system or account settings, or touches credentials."
+      }
+    },
+    "needs_confirmation": {
+      "type": "noul",
+      "instructions": "Should the user confirm before this runs?",
+      "criteria": {
+        "true": "The effect is hard to undo, leaves the machine, or was not clearly what the user asked for.",
+        "false": "The effect is local, reversible, and clearly requested."
+      }
+    }
+  }
+}

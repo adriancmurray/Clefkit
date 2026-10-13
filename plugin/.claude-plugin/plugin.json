@@ -1,0 +1,7 @@
+{
+  "name": "clefkit",
+  "version": "0.1.0",
+  "description": "Typed decisions (yes/no, choice, score) from Clef decision models: local MLX or PyTorch server, Cloudflare Workers AI, or any SystemOne-compatible endpoint.",
+  "author": { "name": "Adrian Murray" },
+  "license": "Apache-2.0"
+}

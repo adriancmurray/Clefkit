@@ -1,0 +1,8 @@
+{
+  // A local SystemOne endpoint backed by Workers AI. Run with `wrangler dev` (it stays on this machine; the AI
+  // binding always calls Cloudflare, under your wrangler login). Not meant to be deployed as is: it has no auth.
+  "name": "clefkit-workers-ai",
+  "main": "src/index.ts",
+  "compatibility_date": "2026-06-24",
+  "ai": { "binding": "AI", "remote": true }
+}
