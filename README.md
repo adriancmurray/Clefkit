@@ -38,29 +38,34 @@ confidence below about 0.6 as "unsure" and fall back to your own rule.
 
 ## Install
 
-Requirements: Claude Code 2.1.275 or later for the plugin, and Node 22.18 or later for the CLI. There are no npm packages.
+Requirements: Claude Code 2.1.275 or later for the plugin, and Node 22.18 or later for the CLI (22.18 is the target;
+only Node 25.9 has been tested). There are no npm packages.
 
 ```text
-/plugin install clefkit --marketplace adriancmurray/Clefkit
+/plugin marketplace add adriancmurray/Clefkit
+/plugin install clefkit@clefkit
 ```
 
-Or in two steps: `/plugin marketplace add adriancmurray/Clefkit`, then `/plugin install clefkit@clefkit`. To try it from a
-clone for one session: `claude --plugin-dir /path/to/Clefkit/plugin`. The plugin adds the MCP tools `decide`,
-`backends_status` and `presets`, and the `decide` skill. The CLI is `node plugin/bin/clefkit.ts`.
+HaiKrew users who already added this marketplace can run `/plugin marketplace update haikrew` and then
+`/plugin install clefkit@haikrew` instead. To try it from a clone for one session:
+`claude --plugin-dir /path/to/Clefkit/plugin`. The plugin adds the MCP tools `decide`, `backends_status` and `presets`,
+and the `decide` skill. The CLI is `node plugin/bin/clefkit.ts`. The plugin install does not include `worker/`, so the
+wrangler proxy in option A needs a clone.
 
 The plugin needs a backend. Pick one of the three below.
 
 ### A. Workers AI through the included wrangler proxy (recommended)
 
-Nothing to download and no GPU. `worker/` is a loopback-only SystemOne endpoint on `127.0.0.1:8788` that forwards to
-Cloudflare Workers AI under your wrangler login. It has no auth, so do not expose or deploy it as is.
+No GPU needed. The plugin install brings the MCP tools, the skill and the CLI, but not `worker/`, so clone the
+repository first. `worker/` is a loopback-only SystemOne endpoint on `127.0.0.1:8788` that forwards to Cloudflare
+Workers AI under your wrangler login. It has no auth, so do not expose or deploy it as is.
 
 ```sh
-npm install -g wrangler        # or any install that puts wrangler on PATH
-wrangler login
-worker/launchd/install.sh      # macOS: runs it at login as a LaunchAgent (undo: worker/launchd/uninstall.sh)
+npm install -g wrangler && wrangler login    # or any install that puts wrangler on PATH
+git clone https://github.com/adriancmurray/Clefkit.git ~/Clefkit
+~/Clefkit/worker/launchd/install.sh          # macOS: runs it at login as a LaunchAgent (undo: ~/Clefkit/worker/launchd/uninstall.sh)
 # any other system, or to run it by hand:
-cd worker && wrangler dev --port 8788 --ip 127.0.0.1
+cd ~/Clefkit/worker && wrangler dev --port 8788 --ip 127.0.0.1
 curl http://127.0.0.1:8788/health
 ```
 
@@ -159,7 +164,9 @@ python3 -m unittest discover -s server/tests
   response shape is assumed to match SystemOne. The wrangler proxy was run by the author, not in CI.
 - Loading the MCP server inside Claude Code as a plugin, and the skill triggering, are untested.
 - Only Node 25.9 and Python 3.14 were used for the tests. Linux, Windows and Intel Macs are untested.
-- The `/plugin install` lines above are untested against the published GitHub repository (it did not exist when this was
-  written). `claude plugin validate` passes on the manifests only.
-- The Jev hosted API, `${NAME}` header expansion against a real server, and the wrangler install on non-macOS systems are
-  untested. The 11.6 GiB figure is the author's single measurement.
+- The marketplace install is untested: `/plugin marketplace add`, `/plugin install clefkit@clefkit`, and the HaiKrew
+  `/plugin marketplace update haikrew` and `clefkit@haikrew` path. `claude plugin validate` passes on the manifests only.
+- The wrangler proxy has run only on the author's machine. Its install on other systems, including non-macOS systems,
+  is untested, and so is running `install.sh` from a fresh clone at `~/Clefkit`.
+- The Jev hosted API and `${NAME}` header expansion against a real server are untested. The 11.6 GiB figure is the
+  author's single measurement.
